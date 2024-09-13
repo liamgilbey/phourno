@@ -1,7 +1,9 @@
 // models/photo.go
 package models
 
-import "time"
+import (
+	"time"
+)
 
 type Photo struct {
 	photo_id        uint      `gorm:"primaryKey"`

@@ -2,7 +2,7 @@ package main
 
 import (
 
-	"github.com/liamgilbey/phourno/config"
+	// "github.com/liamgilbey/phourno/config"
 	"github.com/liamgilbey/phourno/routes"
 
 	"github.com/gin-gonic/gin"
@@ -10,7 +10,7 @@ import (
 
 func main() {
 	// Initialize the database
-	config.InitDB()
+	// config.InitDB()
 
 	// Create a new Gin router
 	router := gin.Default()

@@ -1,7 +1,9 @@
 // models/user.go
 package models
 
-import "time"
+import (
+	"time"
+)
 
 type User struct {
 	user_id       uint   `gorm:"primaryKey"`
