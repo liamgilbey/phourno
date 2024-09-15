@@ -17,6 +17,8 @@ func main() {
 
 	// Public Routes
 	router.GET("/healthcheck", routes.Healthcheck)
+	router.POST("/register", routes.RegisterUser)
+	router.POST("/login", routes.LoginUser)
 
 
 	// Start the server
