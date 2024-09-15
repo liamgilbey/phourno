@@ -4,6 +4,7 @@ import (
 
 	"github.com/liamgilbey/phourno/config"
 	"github.com/liamgilbey/phourno/routes"
+	"github.com/liamgilbey/phourno/middleware"
 
 	"github.com/gin-gonic/gin"
 )
@@ -20,6 +21,9 @@ func main() {
 	router.POST("/register", routes.RegisterUser)
 	router.POST("/login", routes.LoginUser)
 
+	// Protected routes (JWT required)
+	protected := router.Group("/")
+	protected.Use(middleware.AuthMiddleware())
 
 	// Start the server
 	router.Run(":8080")
