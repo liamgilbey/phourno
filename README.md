@@ -5,3 +5,17 @@ Phourno is a self hosted photo journal application, designed to help you appreci
 # Getting Started
 
 The easiest way to deploy `phourno` is with `docker compose`. See the examples in the `docker` directory to help get you started.
+
+## Environment variables
+
+Below is a list of all the environment variables available to configure `phourno`:
+
+| Variable | Description |
+| -- | -- |
+| DB_HOST | Hostname or IP address of the postgresql instance |
+| DB_USER | Username of the postgresql instance |
+| DB_PASSWORD | Password of the postgresql instance |
+| DB_NAME | Database name on the postgresql instance |
+| DB_PORT | Database port of the postgresql instance |
+| APP_SECRET_KEY | Application Secret Key |
+
