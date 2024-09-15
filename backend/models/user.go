@@ -6,8 +6,8 @@ import (
 )
 
 type User struct {
-	user_id       uint   `gorm:"primaryKey"`
-	username string `gorm:"unique"`
-	password string
-	registration_datetime time.Time 
+	UserID       uint   `gorm:"primaryKey"`
+	Username string `gorm:"unique"`
+	Password string
+	RegistrationDatetime time.Time 
 }
