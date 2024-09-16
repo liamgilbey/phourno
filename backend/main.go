@@ -24,6 +24,7 @@ func main() {
 	// Protected routes (JWT required)
 	protected := router.Group("/")
 	protected.Use(middleware.AuthMiddleware())
+	protected.POST("/upload", routes.UploadPhoto)
 
 	// Start the server
 	router.Run(":8080")
