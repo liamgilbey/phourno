@@ -75,6 +75,19 @@ func UploadPhoto(c *gin.Context) {
 	}
 	config.DB.Create(&photo)
 
+	var uploadedPhoto models.Photo
+	if result := config.DB.Where("user_id = ? AND PhotoPath= ?", user.UserID, filePath).First(&uploadedPhoto); result.Error != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "Photo not found"})
+		return
+	}
+
+	calendar := models.Calendar{
+		UserID:		user.UserID,
+		CalendarDate: photoDate,
+		PhotoID: uploadedPhoto.PhotoID,
+	}
+	config.DB.Create(&calendar)
+
 	c.JSON(http.StatusOK, gin.H{
 		"message":  "Photo uploaded successfully",
 		"new-filePath": filePath,

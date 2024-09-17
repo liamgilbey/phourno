@@ -24,6 +24,7 @@ func main() {
 	// Protected routes (JWT required)
 	protected := router.Group("/")
 	protected.Use(middleware.AuthMiddleware())
+	protected.GET("/retrieve/:photo_date", routes.GetPhoto)
 	protected.POST("/upload", routes.UploadPhoto)
 
 	// Start the server
