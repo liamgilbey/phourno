@@ -7,6 +7,7 @@ import (
 	"github.com/liamgilbey/phourno/config"
 	"github.com/liamgilbey/phourno/models"
 	"time"
+	"os"
 
 	"github.com/gin-gonic/gin"
 )
@@ -22,6 +23,23 @@ func UploadPhoto(c *gin.Context) {
 		return
 	}
 
+	// Retrieve the expected_date from the form (optional)
+	photoDateStr := c.PostForm("photo_date")
+	var photoDate time.Time
+	var err error // Declare err here so it's accessible in both branches
+
+	// If no date is provided, use today's date
+	if photoDateStr == "" {
+		photoDate = time.Now() // Default to today's date
+	} else {
+		// Parse the provided date (assuming it is in YYYY-MM-DD format)
+		photoDate, err = time.Parse("2006-01-02", photoDateStr)
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid date format. Please use YYYY-MM-DD"})
+			return
+		}
+	}	
+
 	// Retrieve the uploaded file
 	file, err := c.FormFile("photo")
 	if err != nil {
@@ -30,7 +48,20 @@ func UploadPhoto(c *gin.Context) {
 	}
 
 	// Save the file to disk
-	filePath := fmt.Sprintf("/uploads/%d/%d%s", user.UserID, time.Now().Unix(), filepath.Ext(file.Filename))
+	filePath := fmt.Sprintf("/uploads/%d/%s%s", user.UserID, photoDate.Format("20060102"), filepath.Ext(file.Filename))
+
+	// Check if the file already exists
+	if _, err := os.Stat(filePath); err == nil {
+		// If the file exists, return an error
+		c.JSON(http.StatusConflict, gin.H{"error": "Photo for this day already exists"})
+		return
+	} else if !os.IsNotExist(err) {
+		// If there's an error other than "file not exists", return a server error
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to check file existence"})
+		return
+	}
+
+	// save file to disk
 	if err := c.SaveUploadedFile(file, filePath); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to save file"})
 		return

@@ -23,5 +23,6 @@ achieved with the following example bash command:
 ```sh
 curl -X POST http://localhost:8080/upload \
      -H "Authorization: Bearer <your-jwt-token>" \
-     -F "photo=@<photo-location.
+     -F "photo=@<photo-location>"
+     -F "photo_date=2024-09-17"
 ```
