@@ -2,7 +2,6 @@ package routes
 
 import (
 	"fmt"
-	"path/filepath"
 	"net/http"
 	"github.com/liamgilbey/phourno/config"
 	"github.com/liamgilbey/phourno/models"
@@ -48,7 +47,7 @@ func UploadPhoto(c *gin.Context) {
 	}
 
 	// Save the file to disk
-	filePath := fmt.Sprintf("/uploads/%d/%s%s", user.UserID, photoDate.Format("20060102"), filepath.Ext(file.Filename))
+	filePath := fmt.Sprintf("/uploads/%d/%s", user.UserID, file.Filename)
 
 	// Check if the file already exists
 	if _, err := os.Stat(filePath); err == nil {
@@ -73,10 +72,13 @@ func UploadPhoto(c *gin.Context) {
 		PhotoPath:      filePath,
 		UploadDatetime: time.Now(),
 	}
-	config.DB.Create(&photo)
+	if result := config.DB.Create(&photo); result.Error != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create photo database record for file"})
+		return
+	}
 
 	var uploadedPhoto models.Photo
-	if result := config.DB.Where("user_id = ? AND PhotoPath= ?", user.UserID, filePath).First(&uploadedPhoto); result.Error != nil {
+	if result := config.DB.Where("user_id = ? AND photo_path= ?", user.UserID, filePath).First(&uploadedPhoto); result.Error != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": "Photo not found"})
 		return
 	}
@@ -86,7 +88,10 @@ func UploadPhoto(c *gin.Context) {
 		CalendarDate: photoDate,
 		PhotoID: uploadedPhoto.PhotoID,
 	}
-	config.DB.Create(&calendar)
+	if result := config.DB.Create(&calendar); result.Error != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create calendar database record for file"})
+		return
+	}
 
 	c.JSON(http.StatusOK, gin.H{
 		"message":  "Photo uploaded successfully",
