@@ -20,16 +20,23 @@ func GetPhoto(c *gin.Context) {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "User not found"})
 		return
 	}
-	photoDate := c.Param("photo_date")
+	photoDateStr := c.Param("photo_date")
+
 
 	// Fetch the photo from the database
-	var photo models.Photo
-	if result := config.DB.Where("user_id = ? AND DATE_FORMAT(upload_datetime, '%Y%m%d') = ?", user.UserID, photoDate).First(&photo); result.Error != nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "Photo not found"})
+	var calendar models.Calendar
+	if result := config.DB.Where("user_id = ? AND TO_CHAR(calendar_date, 'YYYYMMDD') = ?", user.UserID, photoDateStr).First(&calendar); result.Error != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "No photo found associated to this calendar date"})
 		return
 	}
 
 	// Check if the photo file exists on disk
+	var photo models.Photo
+	if result := config.DB.Where("photo_id = ?", calendar.PhotoID).First(&photo); result.Error != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "No photo found associated to this calendar date"})
+		return
+	}
+
 	filePath := photo.PhotoPath
 	if _, err := os.Stat(filePath); os.IsNotExist(err) {
 		c.JSON(http.StatusNotFound, gin.H{"error": "File not found"})
