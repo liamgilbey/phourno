@@ -23,7 +23,7 @@ achieved with the following example bash command:
 ```sh
 curl -X POST http://localhost:8080/upload \
      -H "Authorization: Bearer <your-jwt-token>" \
-     -F "photo=@<photo-location>"
+     -F "photo=@<photo-location>" \
      -F "photo_date=2024-09-17"
 ```
 
@@ -34,5 +34,5 @@ achieved with the following example bash command:
 
 ```sh
 curl -X GET http://localhost:8080/retrieve/20240913 \
-     -H "Authorization: Bearer <your-jwt-token>" \
+     -H "Authorization: Bearer <your-jwt-token>" 
 ```

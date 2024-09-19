@@ -72,6 +72,16 @@ func LoginUser(c *gin.Context) {
 		return
 	}
 
+	// Save photo metadata in the database
+	login := models.Login{
+		UserID:    user.UserID,
+		LoginDateTime: time.Now(),
+	}
+	if result := config.DB.Create(&login); result.Error != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to register login database record"})
+		return
+	}	
+
 	c.JSON(http.StatusOK, gin.H{"token": token})
 }
 
