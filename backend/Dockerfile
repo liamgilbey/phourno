@@ -22,9 +22,14 @@ WORKDIR /app
 
 # Copy the binary from the builder
 COPY --from=builder /phourno /app/phourno
+COPY entrypoint.sh /entrypoint.sh
+
+# Install su-exec
+RUN apk --no-cache add su-exec
 
 # Expose the port that the application will run on
 EXPOSE 8080
 
 # Run the app
+ENTRYPOINT ["/entrypoint.sh"]
 CMD ["./phourno"]
