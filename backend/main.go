@@ -7,6 +7,9 @@ import (
 	"github.com/liamgilbey/phourno/middleware"
 
 	"github.com/gin-gonic/gin"
+	"github.com/gin-contrib/cors"
+
+	"time"
 )
 
 func main() {
@@ -15,6 +18,16 @@ func main() {
 
 	// Create a new Gin router
 	router := gin.Default()
+
+	// CORS middleware configuration
+    router.Use(cors.New(cors.Config{
+        AllowOrigins:     []string{"http://localhost:3000"}, // Replace with your frontend URL
+        AllowMethods:     []string{"GET", "POST", "PUT", "DELETE"},
+        AllowHeaders:     []string{"Origin", "Content-Type", "Authorization"},
+        ExposeHeaders:    []string{"Content-Length"},
+        AllowCredentials: true,
+        MaxAge:           12 * time.Hour,
+    }))
 
 	// Public Routes
 	router.GET("/healthcheck", routes.Healthcheck)
