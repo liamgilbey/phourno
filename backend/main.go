@@ -37,6 +37,7 @@ func main() {
 	// Protected routes (JWT required)
 	protected := router.Group("/")
 	protected.Use(middleware.AuthMiddleware())
+	protected.GET("/verify-auth", routes.VerifyTokenEndpoint)
 	protected.GET("/retrieve/:photo_date", routes.GetPhoto)
 	protected.POST("/upload", routes.UploadPhoto)
 
