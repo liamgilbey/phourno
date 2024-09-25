@@ -15,7 +15,6 @@ function App() {
                 <Route path="/login" element={<RedirectIfAuthenticated><Login /></RedirectIfAuthenticated>} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
-                <Route path="/upload" element={<ProtectedRoute><UploadPhoto /></ProtectedRoute>} />
             </Routes>
         </Router>
     );
