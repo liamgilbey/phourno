@@ -26,3 +26,12 @@ export const uploadPhoto = (photoData, token) => {
         }
     });
 };
+
+export const verifyAuth = (token) => {
+    return axios.get(`${API_URL}/verify-auth`, {
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        }
+    })
+}

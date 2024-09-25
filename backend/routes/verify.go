@@ -18,5 +18,6 @@ func VerifyTokenEndpoint(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"message":  "Token is valid",
 		"username": username,
+		"valid": true,
 	})
 }
