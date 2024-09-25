@@ -76,7 +76,7 @@ const Dashboard = () => {
     // Handle cell rendering in the grid
     const HandleCellRender = ({ columnIndex, rowIndex, style }) => {
         const day = getDateFromIndex(rowIndex, columnIndex);
-        const formattedDate = day?.toISOString().split('T')[0];  // Get date in "YYYY-MM-DD" format
+        const formattedDate = day?.toISOString().slice(0, 10).replace(/-/g, '');  // Get date in "YYYYMMDD" format
         const photo = photos[formattedDate];
 
         return (
