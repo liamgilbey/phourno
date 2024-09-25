@@ -1,0 +1,77 @@
+/* Overall container for centering */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f5f5f5;
+}
+
+/* Login form box styling */
+.login-box {
+    background-color: #fff;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0px 8px 30px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+}
+
+/* Heading */
+.login-box h2 {
+    margin-bottom: 30px;
+    text-align: center;
+    color: #333;
+}
+
+/* Input container */
+.input-container {
+    margin-bottom: 20px;
+}
+
+/* Input field styling */
+.input-container label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #555;
+}
+
+.input-container input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+}
+
+.input-container input:focus {
+    border-color: #289e5d;
+    outline: none;
+}
+
+/* Button styling */
+.login-button {
+    width: 100%;
+    padding: 12px;
+    background-color: #289e5d;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.login-button:hover {
+    background-color: #1e7143;
+}
+
+/* Error message styling */
+.error-message {
+    color: red;
+    margin-bottom: 20px;
+    font-size: 14px;
+    text-align: center;
+}

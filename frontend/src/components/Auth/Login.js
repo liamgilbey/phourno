@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { login } from '../../services/api';
 import { useNavigate } from 'react-router-dom';
 
+import '../../styles/Login.css';
 
 
 
@@ -26,33 +27,36 @@ const Login = () => {
     };
 
     return (
-        <div>
-            <h2>Login</h2>
-            <form onSubmit={handleSubmit}>
-                <input
-                    type="text"
-                    placeholder="Username"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    required
-                />
-                <input
-                    type="password"
-                    placeholder="Password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                />
-                <button type="submit">Login</button>
-            </form>
-
-            {error && (
-                <p style={{ color: 'red' }}>
-                    {typeof error === 'string' ? error : JSON.stringify(error)}
-                </p>
-            )}
+        <div className="login-container">
+            <div className="login-box">
+                <h2>Phourno Login</h2>
+                <form onSubmit={handleSubmit}>
+                    <div className="input-container">
+                        <label>Email</label>
+                        <input 
+                            type="text"
+                            placeholder="Username"
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                            required
+                        />
+                    </div>
+                    <div className="input-container">
+                        <label>Password</label>
+                        <input 
+                            type="password" 
+                            value={password} 
+                            onChange={(e) => setPassword(e.target.value)} 
+                            placeholder="Password" 
+                            required 
+                        />
+                    </div>
+                    {error && <p className="error-message">{JSON.stringify(error)}</p>}
+                    <button type="submit" className="login-button">Login</button>
+                </form>
+            </div>
         </div>
-    );
+    );    
 };
 
 export default Login;
