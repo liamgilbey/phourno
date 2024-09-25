@@ -2,12 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { FixedSizeGrid as Grid } from 'react-window';
 import { useNavigate } from 'react-router-dom';
 import '../styles/Dashboard.css';
+import UploadPhotoModal from './Photo/Upload'; // Import the modal
 import { retrievePhoto } from '../services/api';
 
 const Dashboard = () => {
     const navigate = useNavigate();
     const [photos, setPhotos] = useState({});  // Object storing photos keyed by date
     const [missingPhotos, setMissingPhotos] = useState(new Set());  // Track missing photos
+    const [isModalOpen, setIsModalOpen] = useState(false); // State to control modal visibility
+    const [selectedDate, setSelectedDate] = useState(null);
+    const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false); // State to control sidebar collapse
     const token = localStorage.getItem('token');
 
     // Function to fetch a photo for a specific day
@@ -47,6 +51,20 @@ const Dashboard = () => {
         navigate('/login');
     };
 
+    const toggleSidebar = () => {
+        setIsSidebarCollapsed(prevState => !prevState);
+    };    
+
+    const handleGridItemClick = (date) => {
+        setSelectedDate(date);
+        setIsModalOpen(true); // Open modal when grid item is clicked
+    };  
+    
+    const handleUploadPhoto = (file, date) => {
+        // Logic to upload the photo, send `file` and `date` to the API
+        console.log('Uploading file:', file, 'for date:', date);
+    };    
+
     // Helper to calculate the date from the rowIndex and columnIndex (row: week, col: day of the week)
     const getDateFromIndex = (rowIndex, columnIndex) => {
         const baseDate = new Date();  // Start from the current month
@@ -82,9 +100,9 @@ const Dashboard = () => {
         return (
             <div style={style} key={formattedDate}>
                 {photo ? (
-                    <img src={photo} alt={`Photo for ${day}`} className="photo" />
+                    <img src={photo} alt={`Photo for ${day}`} className="photo" onClick={() => handleGridItemClick(day)}/>
                 ) : (
-                    <div className="placeholder" onClick={() => fetchPhoto(day)}>
+                    <div className="placeholder" onClick={() => handleGridItemClick(day)}>
                         <span className="date-text">{formatDate(day)}</span>
                     </div>
                 )}
@@ -93,23 +111,53 @@ const Dashboard = () => {
     };
 
     return (
-        <div>
-            <div>
-                <h2>Dashboard</h2>
+        <div className="dashboard-container">
+            {/* Header */}
+            <div className="header-bar">
+                <button onClick={toggleSidebar} className="toggle-sidebar-button">
+                    {isSidebarCollapsed ? 'Expand' : 'Collapse'}
+                </button>
+                <h2>Phourno</h2>
                 <button onClick={handleLogout}>Logout</button>
             </div>
 
-            <Grid
-                className="calendar-grid"
-                columnCount={7}
-                columnWidth={150}
-                height={600}
-                rowCount={30}  // Estimate of days in the months loaded so far
-                rowHeight={150}
-                width={1200}
-            >
-                {HandleCellRender}
-            </Grid>
+            <div className="main-layout">
+                {/* Sidebar */}
+                <div className={`sidebar ${isSidebarCollapsed ? 'collapsed' : ''}`}>
+                    <a href="/home">
+                        <i className="icon-home"></i> {!isSidebarCollapsed && 'Home'}
+                    </a>
+                    <a href="/photos">
+                        <i className="icon-photo"></i> {!isSidebarCollapsed && 'Photos'}
+                    </a>
+                    <a href="/settings">
+                        <i className="icon-settings"></i> {!isSidebarCollapsed && 'Settings'}
+                    </a>
+                </div>
+
+                {/* Main Content */}
+                <div className="main-content">
+                <Grid
+                    className="calendar-grid"
+                    columnCount={7}
+                    columnWidth={150} // Adjust this as needed for responsiveness
+                    height={600}
+                    rowCount={30}
+                    rowHeight={150}
+                    width={window.innerWidth * 0.9} // Set to 90% of viewport width
+                >
+                        {HandleCellRender}
+                    </Grid>
+                </div>
+            </div>
+
+            {/* Upload Photo Modal */}
+            <UploadPhotoModal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                onSubmit={handleUploadPhoto}
+                date={selectedDate}
+            />            
         </div>
     );
 };

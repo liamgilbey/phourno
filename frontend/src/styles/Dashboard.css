@@ -1,68 +1,133 @@
-.calendar-container {
+/* Full-page layout */
+.dashboard-container {
     display: flex;
-    justify-content: center;
-    margin: 20px;
+    flex-direction: column;
+    height: 100vh;
+    background-color: #f5f5f5;
+    font-family: 'Arial', sans-serif;
+    width: 100%; /* Full width of the viewport */
+    max-width: 1200px; /* Optional: Max width for larger screens */
+    margin: 0 auto; /* Center the dashboard */
 }
 
-.calendar-grid div {
-    position: relative;
+/* Header bar styling */
+.header-bar {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-    border: 1px solid #ddd;  /* Light border around each grid cell */
-    box-sizing: border-box;
-    transition: background-color 0.3s ease;  /* Smooth transition for background color */
-}
-
-/* Hover effect on grid cell (both photo and placeholder) */
-.calendar-grid div:hover {
-    background-color: #f0f0f0;  /* Lighten the background color on hover */
-    cursor: pointer;
-}
-
-/* Optional: Add a subtle shadow to make it feel more interactive on hover */
-.calendar-grid div:hover {
+    padding: 10px 20px; /* Add padding */
+    background-color: #289e5d;
+    color: white;
+    font-size: 18px;
+    text-align: center;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.day-cell, .empty-cell {
-    position: relative;
-    width: 100%;
-    padding-top: 100%; /* Makes a square cell */
-    background-color: lightgrey; /* Placeholder background */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-/* Placeholder styling when no photo is available */
-.placeholder {
-    width: 100%;
-    height: 100%;
-    background-color: lightgrey;  /* Default background color for empty cells */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.date-text {
-    font-size: 18px;
-    color: #333;
-    font-weight: bold;
-}
-
-.photo {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+/* Sidebar toggle button */
+.toggle-sidebar-button {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 14px;
     border-radius: 5px;
 }
 
-/* Empty cells at the beginning of the grid */
-.empty-cell {
-    background-color: transparent;
+/* Main layout (sidebar + content) */
+.main-layout {
+    display: flex;
+    flex: 1; 
+    overflow: hidden;
 }
 
-/* Add space between months (assumes months don't span exactly 6 weeks) */
-.calendar-grid > :nth-child(7n) {
-    margin-right: 20px; /* Adds space after each Sunday */
+/* Sidebar styling */
+.sidebar {
+    width: 200px;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+    transition: width 0.3s ease;
+}
+
+/* Collapsed sidebar */
+.sidebar.collapsed {
+    width: 60px; /* Reduced width when collapsed */
+    padding: 20px 5px;
+}
+
+.sidebar a {
+    display: block;
+    padding: 10px 0;
+    color: #333;
+    text-decoration: none;
+    font-size: 18px;
+    transition: color 0.3s ease;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.sidebar a:hover {
+    color: #289e5d;
+}
+
+.sidebar.collapsed a {
+    text-align: center; /* Center icons when collapsed */
+}
+
+/* Icons in the sidebar */
+.sidebar a i {
+    margin-right: 10px;
+    transition: margin-right 0.3s ease;
+}
+
+.sidebar.collapsed a i {
+    margin-right: 0;
+}
+
+/* Main content (the grid) */
+.main-content {
+    flex-grow: 1;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+/* Calendar grid styling */
+.calendar-grid {
+    width: 100%; /* Full width */
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-gap: 20px;
+}
+
+/* Grid item styling */
+.calendar-grid .photo, .calendar-grid .placeholder {
+    background-color: #ddd;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 150px;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+    transition: box-shadow 0.3s ease, transform 0.3s ease; /* Add transition for smooth hover effect */
+}
+
+/* Hover effect */
+.calendar-grid .photo:hover, .calendar-grid .placeholder:hover {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Slight shadow on hover */
+    transform: translateY(-5px); /* Slight lift effect */
+}
+
+/* Date text inside placeholders */
+.date-text {
+    font-size: 14px;
+    color: #555;
+}
+
+/* Photo styling */
+.calendar-grid .photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
