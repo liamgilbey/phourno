@@ -35,3 +35,13 @@ export const verifyAuth = (token) => {
         }
     })
 }
+
+export const retrievePhoto = (photoDate, token) => {
+    return axios.get(`${API_URL}/retrieve/${photoDate}`, {
+        responseType: 'blob',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        }
+    })
+}

@@ -1,0 +1,68 @@
+.calendar-container {
+    display: flex;
+    justify-content: center;
+    margin: 20px;
+}
+
+.calendar-grid div {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #ddd;  /* Light border around each grid cell */
+    box-sizing: border-box;
+    transition: background-color 0.3s ease;  /* Smooth transition for background color */
+}
+
+/* Hover effect on grid cell (both photo and placeholder) */
+.calendar-grid div:hover {
+    background-color: #f0f0f0;  /* Lighten the background color on hover */
+    cursor: pointer;
+}
+
+/* Optional: Add a subtle shadow to make it feel more interactive on hover */
+.calendar-grid div:hover {
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.day-cell, .empty-cell {
+    position: relative;
+    width: 100%;
+    padding-top: 100%; /* Makes a square cell */
+    background-color: lightgrey; /* Placeholder background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Placeholder styling when no photo is available */
+.placeholder {
+    width: 100%;
+    height: 100%;
+    background-color: lightgrey;  /* Default background color for empty cells */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.date-text {
+    font-size: 18px;
+    color: #333;
+    font-weight: bold;
+}
+
+.photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+/* Empty cells at the beginning of the grid */
+.empty-cell {
+    background-color: transparent;
+}
+
+/* Add space between months (assumes months don't span exactly 6 weeks) */
+.calendar-grid > :nth-child(7n) {
+    margin-right: 20px; /* Adds space after each Sunday */
+}
