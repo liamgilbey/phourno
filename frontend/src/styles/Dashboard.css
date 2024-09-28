@@ -3,25 +3,61 @@
     display: flex;
     flex-direction: column;
     height: 100vh;
-    background-color: #f5f5f5;
+    background-color: #fff;
     font-family: 'Arial', sans-serif;
     width: 100%; /* Full width of the viewport */
-    max-width: 1200px; /* Optional: Max width for larger screens */
     margin: 0 auto; /* Center the dashboard */
 }
 
 /* Header bar styling */
-.header-bar {
+.navbar {
+    height: 50px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 20px; /* Add padding */
     background-color: #289e5d;
     color: white;
     font-size: 18px;
     text-align: center;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
+
+.navbar-brand {
+    padding-left: 16px;
+}
+
+/* Spacer in the middle */
+.navbar .spacer {
+    flex-grow: 1;
+}
+
+/* User dropdown */
+.navbar .user-dropdown {
+    position: relative;
+}
+
+.navbar .dropdown-toggle {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    padding-right: 16px;
+    color: white;
+}
+
+.navbar .dropdown-toggle:hover {
+    background-color: transparent;
+    color: rgb(224, 224, 224)
+}
+
+.navbar .drowndown-icon {
+    display: flex;
+    flex: 50%
+}
+.navbar .drowndown-username {
+    display: flex;
+    flex: 50%
+}
+
+
 
 /* Sidebar toggle button */
 .toggle-sidebar-button {
@@ -43,16 +79,18 @@
 /* Sidebar styling */
 .sidebar {
     width: 200px;
-    background-color: #fff;
+    background-color: rgb(245, 245, 245);
     padding: 20px;
-    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
     overflow-y: auto;
     transition: width 0.3s ease;
+    border-right-style: solid;
+    border-right-color: rgb(153, 153, 153);
+    border-right-width: thin;
 }
 
 /* Collapsed sidebar */
 .sidebar.collapsed {
-    width: 60px; /* Reduced width when collapsed */
+    width: 40px; /* Reduced width when collapsed */
     padding: 20px 5px;
 }
 
@@ -102,7 +140,7 @@
 
 /* Grid item styling */
 .calendar-grid .photo, .calendar-grid .placeholder {
-    background-color: #ddd;
+    background-color: #fff;
     display: flex;
     justify-content: center;
     align-items: center;
