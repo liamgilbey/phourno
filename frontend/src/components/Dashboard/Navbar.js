@@ -3,9 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import UserDropDown from './User';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
+import logo from '../../assets/images/logo-white.png'; // Adjust path to where your logo is stored
 import '../../styles/Navbar.css'
 
-const Navbar = () => {
+const Navbar = ({ username }) => {
     const navigate = useNavigate();
     const [isDropdownOpen, setisDropdownOpen] = useState(false); // State to control dropdown visibility
 
@@ -31,6 +32,7 @@ const Navbar = () => {
     return (
         <nav className="navbar">
                 <div class="navbar-brand">
+                    <img src={logo} className="app-logo"></img>
                     <h2>Phourno</h2>
                 </div>                
                 <div class="spacer"></div>
@@ -38,7 +40,7 @@ const Navbar = () => {
                     <button class="dropdown-toggle">
                         <div class="dropdown-username">
                             <span>
-                                User
+                                {username}
                             </span>
                         </div>
                         <div class="drowndown-icon">

@@ -12,7 +12,12 @@
 }
 
 .navbar-brand {
+    display:flex;
     padding-left: 16px;
+    align-items: center;
+}
+.app-logo {
+    height: 35px;
 }
 
 /* Spacer in the middle */
