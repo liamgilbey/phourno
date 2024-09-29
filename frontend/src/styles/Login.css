@@ -75,3 +75,19 @@
     font-size: 14px;
     text-align: center;
 }
+
+.login-header {
+    display:flex;
+    align-items: center; /* Vertically centers the content */
+}
+
+.app-logo {
+    height: 50px;  /* Adjust the size as needed */
+    width: auto;
+    margin-right: 16px; /* Add some spacing between the text and the icon */
+  }
+  
+.app-title {
+    align-items: center;    
+    margin-bottom: 20px;
+}
