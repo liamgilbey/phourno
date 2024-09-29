@@ -2,8 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Login from './components/Auth/Login';
 import Register from './components/Auth/Register';
-import UploadPhoto from './components/Photo/Upload';
-import Dashboard from './components/Dashboard';
+import Dashboard from './components/Dashboard/Dashboard';
 import ProtectedRoute from './components/Auth/ProtectedRoute';  // Add ProtectedRoute
 import RedirectIfAuthenticated from './components/Auth/RedirectIfAuthenticated';  // Add RedirectIfAuthenticated
 
