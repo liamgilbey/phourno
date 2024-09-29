@@ -8,7 +8,7 @@ export const isAuthenticated = async () => {
     try {
         const response = await verifyAuth(token);
 
-        return response.data.valid;  // Return true if the backend says the token is valid
+        return response.data;  // Return true if the backend says the token is valid
     } catch (error) {
         console.error("Token verification failed:", error);
         localStorage.removeItem('token');  // Remove invalid or expired token

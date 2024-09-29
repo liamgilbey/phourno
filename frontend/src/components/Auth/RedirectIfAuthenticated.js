@@ -14,7 +14,7 @@ const RedirectIfAuthenticated = ({ children }) => {
         const checkAuth = async () => {
             const result = await isAuthenticated();
             console.log("Checking auth:", result);
-            setAuth(result);  // Set true if authenticated, false otherwise
+            setAuth(result.valid);  // Set true if authenticated, false otherwise
             setLoading(false); // Set loading to false after checking auth
         };
         checkAuth();  // Check authentication on route change

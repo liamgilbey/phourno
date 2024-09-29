@@ -3,17 +3,29 @@ import { FixedSizeGrid as Grid } from 'react-window';
 import { useNavigate } from 'react-router-dom';
 import '../../styles/Dashboard.css';
 import UploadPhotoModal from '../Photo/Upload'; // Import the modal
+import isAuthenticated from '../Auth/isAuthenticated';
 import Navbar from './Navbar';
 import { retrievePhoto } from '../../services/api';
 
 const Dashboard = () => {
     const navigate = useNavigate();
     const [photos, setPhotos] = useState({});  // Object storing photos keyed by date
+    const [username, setUsername] = useState(false);
     const [missingPhotos, setMissingPhotos] = useState(new Set());  // Track missing photos
     const [isModalOpen, setIsModalOpen] = useState(false); // State to control modal visibility
     const [selectedDate, setSelectedDate] = useState(null);
     const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false); // State to control sidebar collapse
     const token = localStorage.getItem('token');
+
+    // update username
+    useEffect(() => {
+        const checkAuth = async () => {
+            const result = await isAuthenticated();
+            
+            setUsername(result.username);  // Update name from authentication
+        };
+        checkAuth();  // Check authentication on route change
+    });  // Re-run every time location (route) changes
 
     // Function to fetch a photo for a specific day
     const fetchPhoto = async (date) => {
@@ -113,7 +125,7 @@ const Dashboard = () => {
     return (
         <div className="dashboard-container">
             {/* Header */}
-            <Navbar/>
+            <Navbar username={username}/>
             
 
             <div className="main-layout">

@@ -79,6 +79,7 @@
 .login-header {
     display:flex;
     align-items: center; /* Vertically centers the content */
+    justify-content: center;
 }
 
 .app-logo {
