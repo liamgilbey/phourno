@@ -7,11 +7,24 @@ const Navbar = () => {
     const navigate = useNavigate();
     const [isDropdownOpen, setisDropdownOpen] = useState(false); // State to control dropdown visibility
 
-    // Handle user dropdown click
-    const handleDropdownClick = () => {
-        console.log("click")
-        setisDropdownOpen(true); // Open dropdown when user icon is clicked
-    }    
+    // Function to toggle dropdown
+    const toggleDropdown = () => {
+        setisDropdownOpen(!isDropdownOpen);
+    };    
+
+    // Close dropdown when clicking outside
+    const handleOutsideClick = (e) => {
+        if (!e.target.closest('.user-dropdown')) {
+            setisDropdownOpen(false);
+        }
+    };   
+
+    React.useEffect(() => {
+        document.addEventListener('click', handleOutsideClick);
+        return () => {
+          document.removeEventListener('click', handleOutsideClick);
+        };
+      }, []);    
 
     return (
         <nav className="navbar">
@@ -19,7 +32,7 @@ const Navbar = () => {
                     <h2>Phourno</h2>
                 </div>                
                 <div class="spacer"></div>
-                <div class="user-dropdown" onClick={() => handleDropdownClick()}>
+                <div class="user-dropdown" onClick={toggleDropdown}>
                     <button class="dropdown-toggle">
                         <div class="dropdown-username">
                             <span>
@@ -32,9 +45,9 @@ const Navbar = () => {
                             </svg>
                         </div>
                     </button>
-                    <UserDropDown
-                        isOpen={isDropdownOpen}
-                    />                    
+                    {isDropdownOpen && (
+                        <UserDropDown/>
+                    )}                
                 </div>
             </nav>
     )

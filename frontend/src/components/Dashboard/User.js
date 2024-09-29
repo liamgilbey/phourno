@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../../styles/User.css'
 
-const UserDropDown = ({ isOpen }) => {
+const UserDropDown = () => {
     const navigate = useNavigate();
     const handleLogout = () => {    
         localStorage.removeItem('token');
@@ -10,15 +10,10 @@ const UserDropDown = ({ isOpen }) => {
     };
 
 
-    if (!isOpen) return null; // Don't render if the modal is not open
-
     return (
-
             <ul class="dropdown-menu">
                 <li><a href="" onClick={handleLogout}>Logout</a></li>
             </ul>
-
-
     )
 }
 
