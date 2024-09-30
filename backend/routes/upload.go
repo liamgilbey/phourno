@@ -7,11 +7,59 @@ import (
 	"github.com/liamgilbey/phourno/models"
 	"time"
 	"os"
+	"path/filepath"
 	"strings"
+	"image"
+	"image/jpeg"
 
 	"github.com/gin-gonic/gin"
 	"github.com/nfnt/resize"
 )
+
+// generateThumbnail creates a thumbnail image and saves it
+func generateThumbnail(filePath, newFileName string, width uint, height uint) {
+    // Open the uploaded image file
+    file, err := os.Open(filePath)
+    if err != nil {
+        fmt.Printf("Failed to open file for thumbnail generation: %v\n", err)
+        return
+    }
+    defer file.Close()
+
+    // Decode the image
+    img, _, err := image.Decode(file)
+    if err != nil {
+        fmt.Printf("Failed to decode image: %v\n", err)
+        return
+    }
+
+    // Resize the image to create a thumbnail (e.g., 100x100 pixels)
+    thumbnail := resize.Thumbnail(width, height, img, resize.Lanczos3)
+
+    // Save the thumbnail
+    thumbnailPath := fmt.Sprintf("%s_thumbnail.jpeg", newFileName)
+
+	// Create directories if they don't exist
+    dir := filepath.Dir(thumbnailPath)
+    if err := os.MkdirAll(dir, os.ModePerm); err != nil {
+        fmt.Printf("Failed to create directories: %v\n", err)
+        return
+    }
+
+    thumbnailFile, err := os.Create(thumbnailPath)
+    if err != nil {
+        fmt.Printf("Failed to create thumbnail file: %v\n", err)
+        return
+    }
+    defer thumbnailFile.Close()
+
+    // Encode the thumbnail to a new file (assuming it's a JPEG)
+    jpeg.Encode(thumbnailFile, thumbnail, nil)
+
+    fmt.Printf("Thumbnail saved to %s\n", thumbnailPath)
+}
+
+
 
 // UploadPhoto handles the photo upload for authenticated users
 func UploadPhoto(c *gin.Context) {
@@ -53,15 +101,15 @@ func UploadPhoto(c *gin.Context) {
 
     // Create a new filename using the current timestamp
     timestamp := time.Now().UnixNano()
-    newFileName := fmt.Sprintf("%d%s", timestamp, extension)	
 
 	// Save the file to disk
-	filePath := fmt.Sprintf("/uploads/%d/%s", user.UserID, newFileName)
+	filePath := fmt.Sprintf("/uploads/%d/%d%s", user.UserID, timestamp, extension)
+	thumbnailFilePath := fmt.Sprintf("/thumbnails/%d/%d", user.UserID, timestamp)
 
 	// Check if the file already exists
 	if _, err := os.Stat(filePath); err == nil {
 		// If the file exists, return an error
-		c.JSON(http.StatusConflict, gin.H{"error": "Photo with htis filename has already been uploaded"})
+		c.JSON(http.StatusConflict, gin.H{"error": "Photo with this filename has already been uploaded"})
 		return
 	} else if !os.IsNotExist(err) {
 		// If there's an error other than "file not exists", return a server error
@@ -101,6 +149,9 @@ func UploadPhoto(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create calendar database record for file"})
 		return
 	}
+
+	// Generate thumbnail in a separate goroutine
+	go generateThumbnail(filePath, thumbnailFilePath, 100, 100)
 
 	c.JSON(http.StatusOK, gin.H{
 		"message":  "Photo uploaded successfully",
