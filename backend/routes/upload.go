@@ -36,17 +36,14 @@ func generateThumbnail(filePath, newFileName string, width uint, height uint) {
     // Resize the image to create a thumbnail (e.g., 100x100 pixels)
     thumbnail := resize.Thumbnail(width, height, img, resize.Lanczos3)
 
-    // Save the thumbnail
-    thumbnailPath := fmt.Sprintf("%s_thumbnail.jpeg", newFileName)
-
 	// Create directories if they don't exist
-    dir := filepath.Dir(thumbnailPath)
+    dir := filepath.Dir(newFileName)
     if err := os.MkdirAll(dir, os.ModePerm); err != nil {
         fmt.Printf("Failed to create directories: %v\n", err)
         return
     }
 
-    thumbnailFile, err := os.Create(thumbnailPath)
+    thumbnailFile, err := os.Create(newFileName)
     if err != nil {
         fmt.Printf("Failed to create thumbnail file: %v\n", err)
         return
@@ -56,7 +53,7 @@ func generateThumbnail(filePath, newFileName string, width uint, height uint) {
     // Encode the thumbnail to a new file (assuming it's a JPEG)
     jpeg.Encode(thumbnailFile, thumbnail, nil)
 
-    fmt.Printf("Thumbnail saved to %s\n", thumbnailPath)
+    fmt.Printf("Thumbnail saved to %s\n", newFileName)
 }
 
 
@@ -104,7 +101,7 @@ func UploadPhoto(c *gin.Context) {
 
 	// Save the file to disk
 	filePath := fmt.Sprintf("/uploads/%d/%d%s", user.UserID, timestamp, extension)
-	thumbnailFilePath := fmt.Sprintf("/thumbnails/%d/%d", user.UserID, timestamp)
+	thumbnailFilePath := fmt.Sprintf("/thumbnails/%d/%d%s", user.UserID, timestamp, "_thumbnail.jpeg")
 
 	// Check if the file already exists
 	if _, err := os.Stat(filePath); err == nil {
@@ -123,10 +120,14 @@ func UploadPhoto(c *gin.Context) {
 		return
 	}
 
+	// Generate thumbnail in a separate goroutine
+	go generateThumbnail(filePath, thumbnailFilePath, 100, 100)
+
 	// Save photo metadata in the database
 	photo := models.Photo{
 		UserID:    user.UserID,
 		PhotoPath:      filePath,
+		ThumbnailPath:  thumbnailFilePath,
 		UploadDatetime: time.Now(),
 	}
 	if result := config.DB.Create(&photo); result.Error != nil {
@@ -148,10 +149,7 @@ func UploadPhoto(c *gin.Context) {
 	if result := config.DB.Create(&calendar); result.Error != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create calendar database record for file"})
 		return
-	}
-
-	// Generate thumbnail in a separate goroutine
-	go generateThumbnail(filePath, thumbnailFilePath, 100, 100)
+	}	
 
 	c.JSON(http.StatusOK, gin.H{
 		"message":  "Photo uploaded successfully",
