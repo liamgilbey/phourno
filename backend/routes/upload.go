@@ -7,6 +7,7 @@ import (
 	"github.com/liamgilbey/phourno/models"
 	"time"
 	"os"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 )
@@ -46,13 +47,20 @@ func UploadPhoto(c *gin.Context) {
 		return
 	}
 
+    // Extract the file extension
+    extension := file.Filename[strings.LastIndex(file.Filename, "."):]
+
+    // Create a new filename using the current timestamp
+    timestamp := time.Now().UnixNano()
+    newFileName := fmt.Sprintf("%d%s", timestamp, extension)	
+
 	// Save the file to disk
-	filePath := fmt.Sprintf("/uploads/%d/%s", user.UserID, file.Filename)
+	filePath := fmt.Sprintf("/uploads/%d/%s", user.UserID, newFileName)
 
 	// Check if the file already exists
 	if _, err := os.Stat(filePath); err == nil {
 		// If the file exists, return an error
-		c.JSON(http.StatusConflict, gin.H{"error": "Photo for this day already exists"})
+		c.JSON(http.StatusConflict, gin.H{"error": "Photo with htis filename has already been uploaded"})
 		return
 	} else if !os.IsNotExist(err) {
 		// If there's an error other than "file not exists", return a server error
