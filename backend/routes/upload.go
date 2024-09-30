@@ -10,6 +10,7 @@ import (
 	"strings"
 
 	"github.com/gin-gonic/gin"
+	"github.com/nfnt/resize"
 )
 
 // UploadPhoto handles the photo upload for authenticated users
