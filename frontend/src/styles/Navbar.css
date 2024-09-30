@@ -1,0 +1,55 @@
+
+/* Header bar styling */
+.navbar {
+    height: 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #289e5d;
+    color: white;
+    font-size: 18px;
+    text-align: center;
+}
+
+.navbar-brand {
+    display:flex;
+    padding-left: 16px;
+    align-items: center;
+}
+.app-logo {
+    height: 35px;
+}
+
+/* Spacer in the middle */
+.navbar .spacer {
+    flex-grow: 1;
+}
+
+/* User dropdown */
+.navbar .user-dropdown {
+    position: relative;
+}
+
+.navbar .dropdown-toggle {
+    display: flex;
+    align-items: center; /* Vertically centers the content */
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    padding-right: 16px;
+    color: white;
+}
+
+.navbar .dropdown-toggle:hover {
+    background-color: transparent;
+    color: rgb(224, 224, 224)
+}
+
+.dropdown-username {
+    margin-right: 8px; /* Add some spacing between the text and the icon */
+  }
+  
+  .dropdown-icon {
+    display: flex; /* Make sure the icon is centered if needed */
+    align-items: center;
+  }

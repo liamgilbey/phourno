@@ -1,0 +1,124 @@
+/* Full-page layout */
+.dashboard-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background-color: #fff;
+    font-family: 'Arial', sans-serif;
+    width: 100%; /* Full width of the viewport */
+    margin: 0 auto; /* Center the dashboard */
+}
+
+
+
+
+/* Sidebar toggle button */
+.toggle-sidebar-button {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 14px;
+    border-radius: 5px;
+}
+
+/* Main layout (sidebar + content) */
+.main-layout {
+    display: flex;
+    flex: 1; 
+    overflow: hidden;
+}
+
+/* Sidebar styling */
+.sidebar {
+    width: 200px;
+    background-color: rgb(245, 245, 245);
+    padding: 20px;
+    overflow-y: auto;
+    transition: width 0.3s ease;
+    border-right-style: solid;
+    border-right-color: rgb(153, 153, 153);
+    border-right-width: thin;
+}
+
+/* Collapsed sidebar */
+.sidebar.collapsed {
+    width: 40px; /* Reduced width when collapsed */
+    padding: 20px 5px;
+}
+
+.sidebar a {
+    display: block;
+    padding: 10px 0;
+    color: #333;
+    text-decoration: none;
+    font-size: 18px;
+    transition: color 0.3s ease;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.sidebar a:hover {
+    color: #289e5d;
+}
+
+.sidebar.collapsed a {
+    text-align: center; /* Center icons when collapsed */
+}
+
+/* Icons in the sidebar */
+.sidebar a i {
+    margin-right: 10px;
+    transition: margin-right 0.3s ease;
+}
+
+.sidebar.collapsed a i {
+    margin-right: 0;
+}
+
+/* Main content (the grid) */
+.main-content {
+    flex-grow: 1;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+/* Calendar grid styling */
+.calendar-grid {
+    width: 100%; /* Full width */
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-gap: 20px;
+}
+
+/* Grid item styling */
+.calendar-grid .photo, .calendar-grid .placeholder {
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 150px;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+    transition: box-shadow 0.3s ease, transform 0.3s ease; /* Add transition for smooth hover effect */
+}
+
+/* Hover effect */
+.calendar-grid .photo:hover, .calendar-grid .placeholder:hover {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Slight shadow on hover */
+    transform: translateY(-5px); /* Slight lift effect */
+}
+
+/* Date text inside placeholders */
+.date-text {
+    font-size: 14px;
+    color: #555;
+}
+
+/* Photo styling */
+.calendar-grid .photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
