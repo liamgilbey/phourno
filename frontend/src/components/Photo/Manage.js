@@ -21,8 +21,7 @@ const ManagePhotoModal = ({ isOpen, onClose, onSubmit, date }) => {
     return (
         <div className="modal-overlay">
             <div className="modal-content">
-                <h2>Upload Photo for {date.toDateString()}</h2>
-                <input type="file" onChange={(e) => setFile(e.target.files[0])}  required />
+                <h2>Manage Photo for {date.toDateString()}</h2>
                 <div className="modal-buttons">
                     <button onClick={handleDelete}>Delete</button>
                     <button onClick={onClose}>Cancel</button>
