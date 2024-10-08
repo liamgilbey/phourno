@@ -37,7 +37,7 @@ export const verifyAuth = (token) => {
 }
 
 export const retrievePhoto = (photoDate, token) => {
-    return axios.get(`${API_URL}/retrieve/${photoDate}`, {
+    return axios.get(`${API_URL}/thumbnail/${photoDate}`, {
         responseType: 'blob',
         headers: {
             'Authorization': `Bearer ${token}`,

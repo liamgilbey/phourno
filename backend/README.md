@@ -33,6 +33,6 @@ Retrieving an uploaded photo is behind a protected endpoint. After a successful 
 achieved with the following example bash command:
 
 ```sh
-curl -X GET http://localhost:8080/retrieve/20240913 \
+curl -X GET http://localhost:8080/photo/20240913 \
      -H "Authorization: Bearer <your-jwt-token>" 
 ```
