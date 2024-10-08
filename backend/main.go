@@ -40,7 +40,9 @@ func main() {
 	// verify authentication
 	protected.GET("/verify-auth", routes.VerifyTokenEndpoint)
 	// retrieve a photo for a given date
-	protected.GET("/retrieve/:photo_date", routes.GetPhoto)
+	protected.GET("/photo/:photo_date", routes.GetPhoto)
+	// retrieve a thumbnail for a given date
+	protected.GET("/thumbnail/:photo_date", routes.GetThumbnail)
 	// delete a photo for a given date
 	protected.DELETE("/delete/:photo_date", routes.DeletePhoto)
 	// upload a new photo
