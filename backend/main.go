@@ -42,7 +42,7 @@ func main() {
 	// retrieve a photo for a given date
 	protected.GET("/retrieve/:photo_date", routes.GetPhoto)
 	// delete a photo for a given date
-	protected.GET("/delete/:photo_date", routes.DeletePhoto)
+	protected.DELETE("/delete/:photo_date", routes.DeletePhoto)
 	// upload a new photo
 	protected.POST("/upload", routes.UploadPhoto)
 
