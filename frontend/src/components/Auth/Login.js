@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { login } from '../../services/api';
+import { login, apiHealthcheck } from '../../services/api';
 import { useNavigate } from 'react-router-dom';
 import logo from '../../assets/images/logo.png'; // Adjust path to where your logo is stored
 
@@ -15,16 +15,24 @@ const Login = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        // check the healthcheck endpoint
         try {
-            const response = await login({ 
-                username: username, 
-                password: password 
-            });
-            localStorage.setItem('token', response.data.token);
-            navigate('/dashboard');
-        } catch (err) {
-            setError(err.response ? err.response.data : 'Login failed. Please try again.');
+            const healthcheckResponse = await apiHealthcheck({});
+            // now try and login
+            try {
+                const response = await login({ 
+                    username: username, 
+                    password: password 
+                });
+                localStorage.setItem('token', response.data.token);
+                navigate('/dashboard');
+            } catch (err) {
+                setError(err.response ? err.response.data : 'Login failed. Please try again.');
+            }
         }
+        catch (err){
+            setError(err.response ? err.response.data : 'Backend API is not available.');
+        }      
     };
 
     return (

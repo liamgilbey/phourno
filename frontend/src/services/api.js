@@ -2,6 +2,14 @@ import axios from 'axios';
 
 const API_URL = 'http://localhost:8080';  // Replace with your backend URL
 
+export const apiHealthcheck = () => {
+    return axios.get(`${API_URL}/healthcheck`, {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+}
+
 export const register = (userData) => {
     return axios.post(`${API_URL}/register`, userData, {
         headers: {
