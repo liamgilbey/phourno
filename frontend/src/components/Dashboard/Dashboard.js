@@ -16,6 +16,7 @@ const Dashboard = () => {
     const [isModalOpen, setIsModalOpen] = useState(false); // State to control modal visibility
     const [selectedDate, setSelectedDate] = useState(null);
     const [isPhotoImported, SetisPhotoImported] = useState(false);
+    const [currentPhoto, setCurrentPhoto] = useState(null);
     const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false); // State to control sidebar collapse
     const token = localStorage.getItem('token');
 
@@ -66,10 +67,11 @@ const Dashboard = () => {
         setIsSidebarCollapsed(prevState => !prevState);
     };    
 
-    const handleGridItemClick = (date, isphoto) => {
+    const handleGridItemClick = (date, isphoto, photo) => {
         setSelectedDate(date);
         setIsModalOpen(true); // Open modal when grid item is clicked
         SetisPhotoImported(isphoto);
+        setCurrentPhoto(photo);
     };  
     
     const handleUploadPhoto = (file, date) => {
@@ -112,9 +114,9 @@ const Dashboard = () => {
         return (
             <div style={style} key={formattedDate}>
                 {photo ? (
-                    <img src={photo} alt={`Photo for ${day}`} className="photo" onClick={() => handleGridItemClick(day)}/>
+                    <img src={photo} alt={`Photo for ${day}`} className="photo" onClick={() => handleGridItemClick(day, true, photo)}/>
                 ) : (
-                    <div className="placeholder" onClick={() => handleGridItemClick(day)}>
+                    <div className="placeholder" onClick={() => handleGridItemClick(day, false)}>
                         <span className="date-text">{formatDate(day)}</span>
                     </div>
                 )}
@@ -171,6 +173,7 @@ const Dashboard = () => {
                     onClose={() => setIsModalOpen(false)}
                     onSubmit={handleUploadPhoto}
                     date={selectedDate}
+                    photo={currentPhoto}
                 />
             ) : (
                 <UploadPhotoModal

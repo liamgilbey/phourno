@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { deletePhoto } from '../../services/api';
 import '../../styles/ManagePhoto.css'
 
-const ManagePhotoModal = ({ isOpen, onClose, onSubmit, date }) => {
+const ManagePhotoModal = ({ isOpen, onClose, onSubmit, date, photo }) => {
 
     const [error, setError] = useState(null);
     const token = localStorage.getItem('token');
@@ -22,6 +22,7 @@ const ManagePhotoModal = ({ isOpen, onClose, onSubmit, date }) => {
         <div className="modal-overlay">
             <div className="modal-content">
                 <h2>Manage Photo for {date.toDateString()}</h2>
+                <img src={photo} className="photo"/>
                 <div className="modal-buttons">
                     <button onClick={handleDelete}>Delete</button>
                     <button onClick={onClose}>Cancel</button>
