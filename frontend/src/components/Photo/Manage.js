@@ -8,8 +8,11 @@ const ManagePhotoModal = ({ isOpen, onClose, onSubmit, date, photo }) => {
     const token = localStorage.getItem('token');
 
     const handleDelete = async (e) => {
+        e.preventDefault();
+        const photoDate = date.toISOString().slice(0, 10);
         try {
-            await deletePhoto(date, token);
+            const response = await deletePhoto(photoDate, token);
+            console.log(response)
             alert('Photo deleted successfully!');
         } catch (err) {
             setError(err.response ? err.response.data : 'Delete failed. Please try again.');

@@ -22,7 +22,7 @@ func DeletePhoto(c *gin.Context){
 	}
 
 	// Retrieve the expected_date from the form (optional)
-	photoDateStr := c.PostForm("photo_date")
+	photoDateStr := c.Param("photo_date")
 	var photoDate time.Time
 	var err error 
 
@@ -33,13 +33,16 @@ func DeletePhoto(c *gin.Context){
 		return
 	}
 
-	// now create the updated record in the database with the removed photo link
-	// photo link is removed by setting the photoID to 0
-	calendar := models.Calendar{
-		UserID:		user.UserID,
-		CalendarDate: photoDate,
-		PhotoID: 0,
+	// Check if a calendar entry already exists for this user and date
+	var calendar models.Calendar
+	if result := config.DB.Where("user_id = ? AND calendar_date = ?", user.UserID, photoDate).First(&calendar); result.Error != nil {
+		// Handle the case where no existing entry is found
+		c.JSON(http.StatusNotFound, gin.H{"error": "Calendar entry not found for the specified date"})
+		return
 	}
+
+	// Unlink the photo by setting the PhotoID to 0
+	calendar.PhotoID = 0	
 
 	// Save the updated record in the database
     if err := config.DB.Save(&calendar).Error; err != nil {
