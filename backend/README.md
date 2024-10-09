@@ -36,3 +36,20 @@ achieved with the following example bash command:
 curl -X GET http://localhost:8080/photo/20240913 \
      -H "Authorization: Bearer <your-jwt-token>" 
 ```
+
+Thumbnails can be retrieved with a very similar API call:
+
+```sh
+```sh
+curl -X GET http://localhost:8080/thumbnail/20240913 \
+     -H "Authorization: Bearer <your-jwt-token>" 
+```
+
+# Photo Deletion
+
+You may want to remove a photo from a specific day, and you can delete photos straight from the API:
+
+```sh
+curl -X DELETE http://localhost:8080/delete/20240913 \
+     -H "Authorization: Bearer <your-jwt-token>" 
+```
