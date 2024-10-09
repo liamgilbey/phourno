@@ -1,14 +1,16 @@
 
 
 
-<p style="align:center">
-<img src="./frontend/src/assets/images/logo.png" style="width:150px; vertical-align: middle;" ></img>
-<span style="font-size: 2rem; font-weight: bold; vertical-align: middle;">Phourno</span>
-</p>
+
+<img src="./frontend/src/assets/images/logo-title.png" style="width:325px; vertical-align: middle;" ></img>
+
 
 # Description
 
 Phourno is a self hosted photo journal application, designed to help you appreciate each and every day and be your own photo-journo. It is designed to be developer friendly, with a rich REST API to fully interact with your photo journal however you prefer.
+
+- ⚠️ The project is under **active** development.
+- ⚠️ You can expect lots of bugs and breaking changes.
 
 # Getting Started
 
