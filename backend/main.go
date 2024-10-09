@@ -29,17 +29,23 @@ func main() {
         MaxAge:           12 * time.Hour,
     }))
 
-	// Public Routes
+	// Public Routes -------------------------------------------------------------
 	router.GET("/healthcheck", routes.Healthcheck)
 	router.POST("/register", routes.RegisterUser)
 	router.POST("/login", routes.LoginUser)
 
-	// Protected routes (JWT required)
+	// Protected routes (JWT required) -------------------------------------------
 	protected := router.Group("/")
 	protected.Use(middleware.AuthMiddleware())
+	// verify authentication
 	protected.GET("/verify-auth", routes.VerifyTokenEndpoint)
+	// retrieve a photo for a given date
 	protected.GET("/photo/:photo_date", routes.GetPhoto)
+	// retrieve a thumbnail for a given date
 	protected.GET("/thumbnail/:photo_date", routes.GetThumbnail)
+	// delete a photo for a given date
+	protected.DELETE("/delete/:photo_date", routes.DeletePhoto)
+	// upload a new photo
 	protected.POST("/upload", routes.UploadPhoto)
 
 	// Start the server

@@ -45,3 +45,13 @@ export const retrievePhoto = (photoDate, token) => {
         }
     })
 }
+
+export const deletePhoto = (photoDate, token) => {
+    return axios.delete(`${API_URL}/delete/${photoDate}`, {
+        responseType: 'blob',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        }
+    })
+}
