@@ -1,11 +1,55 @@
+.modal-body {
+    display: flex;
+    justify-content: flex-start; /* Align items without spacing them apart */
+    align-items: flex-start;
+}
+
+.photo-container {
+    position: relative;
+}
+
 .photo {
     background-color: #fff;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 150px;
+    width: 150px; /* Control the size of the image */
     border-radius: 10px;
     overflow: hidden;
-    position: relative;
-    transition: box-shadow 0.3s ease, transform 0.3s ease; /* Add transition for smooth hover effect */
+    transition: box-shadow 0.3s ease, transform 0.3s ease; /* Smooth hover effect */
+}
+
+.photo-container a {
+    pointer-events: none; /* Disable link by default */
+}
+
+.photo-container:hover a {
+    pointer-events: auto; /* Enable link on hover */
+}
+
+.modal-buttons {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 150px;
+    margin-left: 20px; /* Add space between the photo and buttons */
+}
+
+button {
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+button:first-child {
+    margin-bottom: 10px; /* Space between delete and cancel buttons */
 }

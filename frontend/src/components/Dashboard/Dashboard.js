@@ -6,7 +6,7 @@ import UploadPhotoModal from '../Photo/Upload'; // Import the modal
 import ManagePhotoModal from '../Photo/Manage'; // Import the modal
 import isAuthenticated from '../Auth/isAuthenticated';
 import Navbar from './Navbar';
-import { retrievePhoto } from '../../services/api';
+import { retreiveThumbnail } from '../../services/api';
 
 const Dashboard = () => {
     const navigate = useNavigate();
@@ -30,11 +30,11 @@ const Dashboard = () => {
         checkAuth();  // Check authentication on route change
     });  // Re-run every time location (route) changes
 
-    // Function to fetch a photo for a specific day
+    // Function to fetch a thumbnail for a specific day
     const fetchPhoto = async (date) => {
         const photoDate = date.toISOString().slice(0, 10).replace(/-/g, '');  // Format: YYYYMMDD
         try {
-            const response = await retrievePhoto(photoDate, token);
+            const response = await retreiveThumbnail(photoDate, token);
             console.log(`Response Status: ${photoDate} - ${response.status} - ${response.statusText}`);
 
             if (response.status === 200) {
